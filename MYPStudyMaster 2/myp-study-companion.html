@@ -1,0 +1,1151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYP Study Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        
+        .section {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid #667eea;
+        }
+        
+        .card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #764ba2;
+        }
+        
+        .btn-success {
+            background: #28a745;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .input, .textarea, .select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .input:focus, .textarea:focus, .select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .timer-display {
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            color: #667eea;
+            margin: 2rem 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #667eea;
+            transition: width 0.3s ease;
+        }
+        
+        .quote-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .note-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .note-item h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+        }
+        
+        .workout-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .workout-card:hover {
+            transform: translateY(-4px);
+            border-color: #667eea;
+        }
+        
+        .challenge-item {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .challenge-completed {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 1rem;
+        }
+        
+        .tab {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .timer-display {
+                font-size: 3rem;
+            }
+            
+            .nav {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎓 MYP Study Companion</h1>
+            <p>Your all-in-one platform for effective studying and MYP success</p>
+        </header>
+
+        <nav class="nav">
+            <button class="nav-btn active" onclick="showSection('dashboard')">Dashboard</button>
+            <button class="nav-btn" onclick="showSection('notes')">Study Notes</button>
+            <button class="nav-btn" onclick="showSection('pomodoro')">Pomodoro Timer</button>
+            <button class="nav-btn" onclick="showSection('subjects')">Subject Tips</button>
+            <button class="nav-btn" onclick="showSection('timetable')">Timetable</button>
+            <button class="nav-btn" onclick="showSection('habits')">Healthy Habits</button>
+            <button class="nav-btn" onclick="showSection('flashcards')">Flashcards</button>
+            <button class="nav-btn" onclick="showSection('resources')">Resources</button>
+        </nav>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <h2>Welcome to Your Dashboard</h2>
+            
+            <div class="quote-box">
+                <h3>💡 Tip of the Day</h3>
+                <p>"The secret of getting ahead is getting started. Break your complex overwhelming tasks into small manageable tasks."</p>
+                <small>— Mark Twain</small>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>📈 Today's Progress</h3>
+                    <p>Study Sessions: <span id="daily-sessions">0</span>/4</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="session-progress" style="width: 0%"></div>
+                    </div>
+                    <p>Notes Created: <span id="daily-notes">0</span></p>
+                    <p>Flashcards Reviewed: <span id="daily-flashcards">0</span></p>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 Quick Actions</h3>
+                    <button class="btn" onclick="showSection('pomodoro')">Start Study Session</button>
+                    <button class="btn" onclick="showSection('notes')">Add Note</button>
+                    <button class="btn" onclick="showSection('habits')">Log Activity</button>
+                </div>
+
+                <div class="card">
+                    <h3>📚 Recent Activity</h3>
+                    <div id="recent-activity">
+                        <p>No recent activity yet. Start studying to see your progress!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Study Notes Section -->
+        <section id="notes" class="section">
+            <h2>Study Notes</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Create New Note</h3>
+                    <input type="text" class="input" id="note-title" placeholder="Note Title">
+                    <select class="select" id="note-subject">
+                        <option value="">Select Subject</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Sciences">Sciences</option>
+                        <option value="Language & Literature">Language & Literature</option>
+                        <option value="Language Acquisition">Language Acquisition</option>
+                        <option value="Individuals & Societies">Individuals & Societies</option>
+                        <option value="Arts">Arts</option>
+                        <option value="Physical Education">Physical Education</option>
+                        <option value="Design">Design</option>
+                    </select>
+                    <textarea class="textarea" id="note-content" placeholder="Write your notes here..." rows="6"></textarea>
+                    <input type="text" class="input" id="note-tags" placeholder="Tags (comma separated)">
+                    <button class="btn" onclick="saveNote()">Save Note</button>
+                </div>
+                
+                <div class="card">
+                    <h3>Search Notes</h3>
+                    <input type="text" class="input" id="search-notes" placeholder="Search notes..." onkeyup="searchNotes()">
+                    <div class="tabs">
+                        <button class="tab active" onclick="filterNotes('all')">All</button>
+                        <button class="tab" onclick="filterNotes('pinned')">Pinned</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="notes-container">
+                <p>No notes yet. Create your first note above!</p>
+            </div>
+        </section>
+
+        <!-- Pomodoro Timer Section -->
+        <section id="pomodoro" class="section">
+            <h2>Pomodoro Timer</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Timer Settings</h3>
+                    <label>Work Time (minutes):</label>
+                    <input type="range" id="work-time" min="5" max="60" value="25" onchange="updateSettings()">
+                    <span id="work-time-display">25</span>
+                    
+                    <label>Break Time (minutes):</label>
+                    <input type="range" id="break-time" min="1" max="15" value="5" onchange="updateSettings()">
+                    <span id="break-time-display">5</span>
+                    
+                    <label>Current Task:</label>
+                    <input type="text" class="input" id="current-task" placeholder="What are you working on?">
+                </div>
+                
+                <div class="card">
+                    <h3>Timer</h3>
+                    <div class="timer-display" id="timer-display">25:00</div>
+                    <div style="text-align: center;">
+                        <button class="btn" id="timer-btn" onclick="toggleTimer()">Start</button>
+                        <button class="btn" onclick="resetTimer()">Reset</button>
+                        <button class="btn" onclick="skipSession()">Skip</button>
+                    </div>
+                    <p style="text-align: center; margin-top: 1rem;">
+                        <span id="session-type">Focus Time</span> - Session <span id="session-count">1</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Completed Tasks</h3>
+                <div id="completed-tasks">
+                    <p>No completed tasks yet.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subject Tips Section -->
+        <section id="subjects" class="section">
+            <h2>Subject-Specific Tips</h2>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="showSubject('mathematics')">Mathematics</button>
+                <button class="tab" onclick="showSubject('sciences')">Sciences</button>
+                <button class="tab" onclick="showSubject('language')">Language</button>
+                <button class="tab" onclick="showSubject('societies')">Societies</button>
+                <button class="tab" onclick="showSubject('arts')">Arts</button>
+            </div>
+
+            <div id="subject-content">
+                <div id="mathematics-content" class="subject-content">
+                    <h3>Mathematics Tips</h3>
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Key Study Strategies</h4>
+                            <ul>
+                                <li>Practice regularly with progressive difficulty</li>
+                                <li>Focus on understanding concepts, not memorizing</li>
+                                <li>Create visual representations of problems</li>
+                                <li>Work through examples step-by-step</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h4>Common Challenges</h4>
+                            <p><strong>Word Problems:</strong> Break down into known/unknown quantities, assign variables, form equations.</p>
+                            <p><strong>Geometric Proofs:</strong> Identify given information, draw diagrams, use logical steps.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timetable Section -->
+        <section id="timetable" class="section">
+            <h2>Study Timetable</h2>
+            
+            <div class="card">
+                <h3>Schedule Fixer Tool</h3>
+                <p>Create and customize your weekly study schedule with our interactive tool.</p>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <button class="btn" onclick="window.open('https://mypprotips.my.canva.site/tips-for-managing-myp-projects-and-exam-preparation', '_blank')">
+                        Open Schedule Fixer →
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Quick Schedule</h3>
+                    <input type="text" class="input" id="schedule-subject" placeholder="Subject">
+                    <input type="time" class="input" id="schedule-time">
+                    <input type="text" class="input" id="schedule-day" placeholder="Day (e.g., Monday)">
+                    <button class="btn" onclick="addScheduleItem()">Add to Schedule</button>
+                </div>
+                
+                <div class="card">
+                    <h3>Today's Schedule</h3>
+                    <div id="today-schedule">
+                        <p>No scheduled items for today.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Healthy Habits Section -->
+        <section id="habits" class="section">
+            <h2>Healthy Habits</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Daily Progress</h3>
+                    <p>Water Intake: <span id="water-count">0</span>/8 glasses</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="water-progress" style="width: 0%"></div>
+                    </div>
+                    <button class="btn" onclick="logWater()">Log Water 💧</button>
+                    
+                    <p>Movement Sessions: <span id="movement-count">0</span>/3</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="movement-progress" style="width: 0%"></div>
+                    </div>
+                    <button class="btn" onclick="logMovement()">Log Movement 🏃</button>
+                </div>
+                
+                <div class="card">
+                    <h3>Quick Workouts</h3>
+                    <div class="workout-card">
+                        <h4>🔥 Cardio Blast (10 min)</h4>
+                        <p>Jumping jacks, High knees, Burpees</p>
+                        <button class="btn" onclick="startWorkout('cardio')">Start Workout</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>10-Minute Challenges</h3>
+                <div id="challenges-container">
+                    <div class="challenge-item">
+                        <div>
+                            <h4>60-Second Wall Sit</h4>
+                            <p>Hold a wall sit for 60 seconds straight</p>
+                        </div>
+                        <button class="btn" onclick="completeChallenge('wall-sit')">Complete</button>
+                    </div>
+                    <div class="challenge-item">
+                        <div>
+                            <h4>100 Jumping Jacks</h4>
+                            <p>Complete 100 jumping jacks in under 3 minutes</p>
+                        </div>
+                        <button class="btn" onclick="completeChallenge('jumping-jacks')">Complete</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flashcards Section -->
+        <section id="flashcards" class="section">
+            <h2>Flashcards</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Create Flashcard</h3>
+                    <input type="text" class="input" id="flashcard-question" placeholder="Question/Front">
+                    <textarea class="textarea" id="flashcard-answer" placeholder="Answer/Back" rows="3"></textarea>
+                    <select class="select" id="flashcard-subject">
+                        <option value="">Select Subject</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Sciences">Sciences</option>
+                        <option value="Language & Literature">Language & Literature</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <button class="btn" onclick="createFlashcard()">Create Flashcard</button>
+                </div>
+                
+                <div class="card">
+                    <h3>Study Session</h3>
+                    <div id="flashcard-study">
+                        <p>No flashcards available. Create some first!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section id="resources" class="section">
+            <h2>Helpful Resources</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>📚 Study Resources</h3>
+                    <ul>
+                        <li><a href="https://www.khanacademy.org" target="_blank">Khan Academy</a> - Free online courses</li>
+                        <li><a href="https://www.coursera.org" target="_blank">Coursera</a> - University courses</li>
+                        <li><a href="https://www.ted.com/talks" target="_blank">TED Talks</a> - Inspirational videos</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔬 Science Resources</h3>
+                    <ul>
+                        <li><a href="https://www.nationalgeographic.com" target="_blank">National Geographic</a></li>
+                        <li><a href="https://www.scientificamerican.com" target="_blank">Scientific American</a></li>
+                        <li><a href="https://www.nasa.gov" target="_blank">NASA</a></li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📖 Language Resources</h3>
+                    <ul>
+                        <li><a href="https://www.duolingo.com" target="_blank">Duolingo</a> - Language learning</li>
+                        <li><a href="https://www.grammarly.com" target="_blank">Grammarly</a> - Writing assistant</li>
+                        <li><a href="https://www.poetryfoundation.org" target="_blank">Poetry Foundation</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Global state
+        let currentSection = 'dashboard';
+        let notes = JSON.parse(localStorage.getItem('myp-notes') || '[]');
+        let flashcards = JSON.parse(localStorage.getItem('myp-flashcards') || '[]');
+        let habits = JSON.parse(localStorage.getItem('myp-habits') || '{}');
+        let schedule = JSON.parse(localStorage.getItem('myp-schedule') || '[]');
+        let completedTasks = JSON.parse(localStorage.getItem('myp-completed-tasks') || '[]');
+        
+        // Timer state
+        let timer = null;
+        let timeLeft = 25 * 60; // 25 minutes in seconds
+        let isRunning = false;
+        let isBreak = false;
+        let sessionCount = 1;
+        
+        // Initialize habits if empty
+        if (!habits.water) habits.water = 0;
+        if (!habits.movement) habits.movement = 0;
+        if (!habits.challenges) habits.challenges = [];
+
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked nav button
+            event.target.classList.add('active');
+            
+            currentSection = sectionId;
+            
+            // Load section-specific data
+            if (sectionId === 'notes') loadNotes();
+            if (sectionId === 'habits') loadHabits();
+            if (sectionId === 'flashcards') loadFlashcards();
+            if (sectionId === 'dashboard') loadDashboard();
+        }
+
+        // Dashboard functions
+        function loadDashboard() {
+            const sessionsToday = parseInt(localStorage.getItem('daily-sessions') || '0');
+            const notesToday = notes.filter(note => {
+                const today = new Date().toDateString();
+                const noteDate = new Date(note.created).toDateString();
+                return noteDate === today;
+            }).length;
+            
+            document.getElementById('daily-sessions').textContent = sessionsToday;
+            document.getElementById('daily-notes').textContent = notesToday;
+            document.getElementById('daily-flashcards').textContent = '0';
+            
+            const progressPercent = (sessionsToday / 4) * 100;
+            document.getElementById('session-progress').style.width = progressPercent + '%';
+        }
+
+        // Notes functions
+        function saveNote() {
+            const title = document.getElementById('note-title').value;
+            const subject = document.getElementById('note-subject').value;
+            const content = document.getElementById('note-content').value;
+            const tags = document.getElementById('note-tags').value;
+            
+            if (!title || !content) {
+                alert('Please fill in title and content');
+                return;
+            }
+            
+            const note = {
+                id: Date.now(),
+                title,
+                subject,
+                content,
+                tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+                created: new Date().toISOString(),
+                pinned: false
+            };
+            
+            notes.push(note);
+            localStorage.setItem('myp-notes', JSON.stringify(notes));
+            
+            // Clear form
+            document.getElementById('note-title').value = '';
+            document.getElementById('note-subject').value = '';
+            document.getElementById('note-content').value = '';
+            document.getElementById('note-tags').value = '';
+            
+            loadNotes();
+            alert('Note saved successfully!');
+        }
+
+        function loadNotes() {
+            const container = document.getElementById('notes-container');
+            if (notes.length === 0) {
+                container.innerHTML = '<p>No notes yet. Create your first note above!</p>';
+                return;
+            }
+            
+            container.innerHTML = notes.map(note => `
+                <div class="note-item">
+                    <h4>${note.title}</h4>
+                    <p><strong>Subject:</strong> ${note.subject || 'No subject'}</p>
+                    <p>${note.content.substring(0, 150)}${note.content.length > 150 ? '...' : ''}</p>
+                    <div>
+                        ${note.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <small>Created: ${new Date(note.created).toLocaleDateString()}</small>
+                    <button class="btn btn-danger" onclick="deleteNote(${note.id})" style="margin-left: 1rem;">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteNote(id) {
+            if (confirm('Are you sure you want to delete this note?')) {
+                notes = notes.filter(note => note.id !== id);
+                localStorage.setItem('myp-notes', JSON.stringify(notes));
+                loadNotes();
+            }
+        }
+
+        function searchNotes() {
+            const query = document.getElementById('search-notes').value.toLowerCase();
+            const container = document.getElementById('notes-container');
+            
+            const filteredNotes = notes.filter(note => 
+                note.title.toLowerCase().includes(query) ||
+                note.content.toLowerCase().includes(query) ||
+                note.tags.some(tag => tag.toLowerCase().includes(query))
+            );
+            
+            if (filteredNotes.length === 0) {
+                container.innerHTML = '<p>No notes match your search.</p>';
+                return;
+            }
+            
+            container.innerHTML = filteredNotes.map(note => `
+                <div class="note-item">
+                    <h4>${note.title}</h4>
+                    <p><strong>Subject:</strong> ${note.subject || 'No subject'}</p>
+                    <p>${note.content.substring(0, 150)}${note.content.length > 150 ? '...' : ''}</p>
+                    <div>
+                        ${note.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <small>Created: ${new Date(note.created).toLocaleDateString()}</small>
+                </div>
+            `).join('');
+        }
+
+        // Pomodoro Timer functions
+        function updateSettings() {
+            const workTime = document.getElementById('work-time').value;
+            const breakTime = document.getElementById('break-time').value;
+            
+            document.getElementById('work-time-display').textContent = workTime;
+            document.getElementById('break-time-display').textContent = breakTime;
+            
+            if (!isRunning) {
+                timeLeft = (isBreak ? breakTime : workTime) * 60;
+                updateTimerDisplay();
+            }
+        }
+
+        function toggleTimer() {
+            if (isRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            isRunning = true;
+            document.getElementById('timer-btn').textContent = 'Pause';
+            
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    completeSession();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            document.getElementById('timer-btn').textContent = 'Start';
+            clearInterval(timer);
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            const workTime = document.getElementById('work-time').value;
+            const breakTime = document.getElementById('break-time').value;
+            timeLeft = (isBreak ? breakTime : workTime) * 60;
+            updateTimerDisplay();
+        }
+
+        function skipSession() {
+            completeSession();
+        }
+
+        function completeSession() {
+            pauseTimer();
+            
+            if (!isBreak) {
+                // Work session completed
+                const task = document.getElementById('current-task').value;
+                if (task) {
+                    completedTasks.push({
+                        task,
+                        completed: new Date().toISOString()
+                    });
+                    localStorage.setItem('myp-completed-tasks', JSON.stringify(completedTasks));
+                    document.getElementById('current-task').value = '';
+                }
+                
+                // Increment daily sessions
+                const dailySessions = parseInt(localStorage.getItem('daily-sessions') || '0') + 1;
+                localStorage.setItem('daily-sessions', dailySessions.toString());
+                
+                isBreak = true;
+                document.getElementById('session-type').textContent = 'Break Time';
+                alert('🎉 Work session completed! Time for a break.');
+            } else {
+                // Break completed
+                isBreak = false;
+                sessionCount++;
+                document.getElementById('session-type').textContent = 'Focus Time';
+                document.getElementById('session-count').textContent = sessionCount;
+                alert('Break over! Ready for another focus session?');
+            }
+            
+            const workTime = document.getElementById('work-time').value;
+            const breakTime = document.getElementById('break-time').value;
+            timeLeft = (isBreak ? breakTime : workTime) * 60;
+            updateTimerDisplay();
+            loadCompletedTasks();
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer-display').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function loadCompletedTasks() {
+            const container = document.getElementById('completed-tasks');
+            if (completedTasks.length === 0) {
+                container.innerHTML = '<p>No completed tasks yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = completedTasks.slice(-5).map(task => `
+                <div class="note-item">
+                    <h4>✅ ${task.task}</h4>
+                    <small>Completed: ${new Date(task.completed).toLocaleString()}</small>
+                </div>
+            `).join('');
+        }
+
+        // Subject Tips functions
+        function showSubject(subject) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const content = document.getElementById('subject-content');
+            
+            const subjectContent = {
+                mathematics: `
+                    <h3>Mathematics Tips</h3>
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Key Study Strategies</h4>
+                            <ul>
+                                <li>Practice regularly with progressive difficulty</li>
+                                <li>Focus on understanding concepts, not memorizing</li>
+                                <li>Create visual representations of problems</li>
+                                <li>Work through examples step-by-step</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h4>Common Challenges</h4>
+                            <p><strong>Word Problems:</strong> Break down into known/unknown quantities, assign variables, form equations.</p>
+                            <p><strong>Geometric Proofs:</strong> Identify given information, draw diagrams, use logical steps.</p>
+                        </div>
+                    </div>
+                `,
+                sciences: `
+                    <h3>Sciences Tips</h3>
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Laboratory Skills</h4>
+                            <ul>
+                                <li>Practice observation and data recording</li>
+                                <li>Understand scientific method</li>
+                                <li>Learn to analyze results critically</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h4>Key Concepts</h4>
+                            <p>Focus on understanding scientific principles rather than memorizing facts.</p>
+                        </div>
+                    </div>
+                `,
+                language: `
+                    <h3>Language & Literature Tips</h3>
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Reading Strategies</h4>
+                            <ul>
+                                <li>Annotate texts while reading</li>
+                                <li>Analyze literary devices and their effects</li>
+                                <li>Practice close reading techniques</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h4>Writing Skills</h4>
+                            <p>Use the PEEL structure: Point, Evidence, Explain, Link.</p>
+                        </div>
+                    </div>
+                `,
+                societies: `
+                    <h3>Individuals & Societies Tips</h3>
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Research Skills</h4>
+                            <ul>
+                                <li>Evaluate source reliability using OPVL method</li>
+                                <li>Analyze multiple perspectives</li>
+                                <li>Connect past events to current issues</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h4>Essay Writing</h4>
+                            <p>Structure arguments clearly with evidence and analysis.</p>
+                        </div>
+                    </div>
+                `,
+                arts: `
+                    <h3>Arts Tips</h3>
+                    <div class="grid">
+                        <div class="card">
+                            <h4>Creative Process</h4>
+                            <ul>
+                                <li>Keep a visual arts journal</li>
+                                <li>Experiment with different media</li>
+                                <li>Document your creative process</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h4>Art Analysis</h4>
+                            <p>Practice describing, analyzing, interpreting, and evaluating artworks.</p>
+                        </div>
+                    </div>
+                `
+            };
+            
+            content.innerHTML = subjectContent[subject] || '<p>Content coming soon!</p>';
+        }
+
+        // Healthy Habits functions
+        function loadHabits() {
+            document.getElementById('water-count').textContent = habits.water || 0;
+            document.getElementById('movement-count').textContent = habits.movement || 0;
+            
+            const waterProgress = Math.min((habits.water / 8) * 100, 100);
+            const movementProgress = Math.min((habits.movement / 3) * 100, 100);
+            
+            document.getElementById('water-progress').style.width = waterProgress + '%';
+            document.getElementById('movement-progress').style.width = movementProgress + '%';
+        }
+
+        function logWater() {
+            habits.water = (habits.water || 0) + 1;
+            localStorage.setItem('myp-habits', JSON.stringify(habits));
+            loadHabits();
+            alert('💧 Water logged! Stay hydrated!');
+        }
+
+        function logMovement() {
+            habits.movement = (habits.movement || 0) + 1;
+            localStorage.setItem('myp-habits', JSON.stringify(habits));
+            loadHabits();
+            alert('🏃 Movement logged! Great job staying active!');
+        }
+
+        function startWorkout(type) {
+            alert(`🔥 Starting ${type} workout! Remember to warm up first.`);
+            logMovement();
+        }
+
+        function completeChallenge(challengeId) {
+            if (!habits.challenges) habits.challenges = [];
+            
+            if (!habits.challenges.includes(challengeId)) {
+                habits.challenges.push(challengeId);
+                localStorage.setItem('myp-habits', JSON.stringify(habits));
+                alert('🎉 Challenge completed! Awesome work!');
+                
+                // Mark challenge as completed in UI
+                const challengeButton = event.target;
+                challengeButton.textContent = '✅ Completed';
+                challengeButton.disabled = true;
+                challengeButton.className = 'btn btn-success';
+                challengeButton.closest('.challenge-item').classList.add('challenge-completed');
+            }
+        }
+
+        // Schedule functions
+        function addScheduleItem() {
+            const subject = document.getElementById('schedule-subject').value;
+            const time = document.getElementById('schedule-time').value;
+            const day = document.getElementById('schedule-day').value;
+            
+            if (!subject || !time || !day) {
+                alert('Please fill in all schedule fields');
+                return;
+            }
+            
+            const scheduleItem = {
+                id: Date.now(),
+                subject,
+                time,
+                day,
+                created: new Date().toISOString()
+            };
+            
+            schedule.push(scheduleItem);
+            localStorage.setItem('myp-schedule', JSON.stringify(schedule));
+            
+            // Clear form
+            document.getElementById('schedule-subject').value = '';
+            document.getElementById('schedule-time').value = '';
+            document.getElementById('schedule-day').value = '';
+            
+            loadTodaySchedule();
+            alert('Schedule item added!');
+        }
+
+        function loadTodaySchedule() {
+            const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+            const todayItems = schedule.filter(item => 
+                item.day.toLowerCase() === today.toLowerCase()
+            );
+            
+            const container = document.getElementById('today-schedule');
+            if (todayItems.length === 0) {
+                container.innerHTML = '<p>No scheduled items for today.</p>';
+                return;
+            }
+            
+            container.innerHTML = todayItems.map(item => `
+                <div class="note-item">
+                    <h4>${item.subject}</h4>
+                    <p>⏰ ${item.time}</p>
+                </div>
+            `).join('');
+        }
+
+        // Flashcards functions
+        function createFlashcard() {
+            const question = document.getElementById('flashcard-question').value;
+            const answer = document.getElementById('flashcard-answer').value;
+            const subject = document.getElementById('flashcard-subject').value;
+            
+            if (!question || !answer) {
+                alert('Please fill in both question and answer');
+                return;
+            }
+            
+            const flashcard = {
+                id: Date.now(),
+                question,
+                answer,
+                subject,
+                created: new Date().toISOString(),
+                reviews: 0
+            };
+            
+            flashcards.push(flashcard);
+            localStorage.setItem('myp-flashcards', JSON.stringify(flashcards));
+            
+            // Clear form
+            document.getElementById('flashcard-question').value = '';
+            document.getElementById('flashcard-answer').value = '';
+            document.getElementById('flashcard-subject').value = '';
+            
+            loadFlashcards();
+            alert('Flashcard created successfully!');
+        }
+
+        function loadFlashcards() {
+            const container = document.getElementById('flashcard-study');
+            if (flashcards.length === 0) {
+                container.innerHTML = '<p>No flashcards available. Create some first!</p>';
+                return;
+            }
+            
+            const randomCard = flashcards[Math.floor(Math.random() * flashcards.length)];
+            container.innerHTML = `
+                <div class="card">
+                    <h4>Study Card</h4>
+                    <div id="flashcard-front">
+                        <h3>Question:</h3>
+                        <p>${randomCard.question}</p>
+                        <button class="btn" onclick="showAnswer(${randomCard.id})">Show Answer</button>
+                    </div>
+                    <div id="flashcard-back" class="hidden">
+                        <h3>Answer:</h3>
+                        <p>${randomCard.answer}</p>
+                        <button class="btn" onclick="nextCard()">Next Card</button>
+                    </div>
+                </div>
+                <p>Total Flashcards: ${flashcards.length}</p>
+            `;
+        }
+
+        function showAnswer(cardId) {
+            document.getElementById('flashcard-front').classList.add('hidden');
+            document.getElementById('flashcard-back').classList.remove('hidden');
+            
+            // Increment review count
+            const card = flashcards.find(c => c.id === cardId);
+            if (card) {
+                card.reviews++;
+                localStorage.setItem('myp-flashcards', JSON.stringify(flashcards));
+            }
+        }
+
+        function nextCard() {
+            loadFlashcards();
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTimerDisplay();
+            loadDashboard();
+            loadTodaySchedule();
+            
+            // Reset daily counters if it's a new day
+            const lastReset = localStorage.getItem('last-daily-reset');
+            const today = new Date().toDateString();
+            
+            if (lastReset !== today) {
+                localStorage.setItem('daily-sessions', '0');
+                localStorage.setItem('last-daily-reset', today);
+                habits.water = 0;
+                habits.movement = 0;
+                habits.challenges = [];
+                localStorage.setItem('myp-habits', JSON.stringify(habits));
+            }
+        });
+    </script>
+</body>
+</html>
